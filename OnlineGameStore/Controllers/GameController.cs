@@ -35,5 +35,18 @@ namespace OnlineGameStore.Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{gamealias}")]
+        public async Task<IActionResult> GetGameDetails(string gamealias)
+        {
+            var gameDetails = await _gameService.GetDescriptionAsync(gamealias);
+
+            if (gameDetails == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(gameDetails);
+        }
     }
 }

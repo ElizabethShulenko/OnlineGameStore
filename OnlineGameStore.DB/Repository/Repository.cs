@@ -21,6 +21,11 @@ namespace OnlineGameStore.DB.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.SingleOrDefaultAsync(predicate);
+        }
+
         public async Task<bool> IsExist(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.AnyAsync(predicate);

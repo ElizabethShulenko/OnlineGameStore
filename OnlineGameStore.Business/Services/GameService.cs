@@ -40,5 +40,25 @@ namespace OnlineGameStore.Core.Services
 
             await _gameRepository.AddAsync(game);
         }
+
+        public async Task<string?> GetDescriptionAsync(string gameAlias)
+        {
+            var game = await _gameRepository.SingleOrDefaultAsync(m => m.GameAlias.ToLower() == gameAlias.ToLower());
+
+            if (game == null)
+            {
+                return null;
+            }
+
+            var result = new GameModel
+            {
+                Id = game.Id,
+                Name = game.Name,
+                GameAlias = game.GameAlias,
+                Description = game.Description,
+            };
+
+            return result.ToString();
+        }
     }
 }

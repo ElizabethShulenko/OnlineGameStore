@@ -7,5 +7,6 @@ namespace OnlineGameStore.DB.Repository
     {
         Task AddAsync(TEntity entity);
         Task<bool> IsExist(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }
