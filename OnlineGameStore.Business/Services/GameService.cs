@@ -52,6 +52,18 @@ namespace OnlineGameStore.Core.Services
 
         public async Task<string?> GetDescriptionAsync(string gameAlias)
         {
+            var game = await GetGameAsync(gameAlias);
+
+            if (game == null)
+            {
+                return null;
+            }
+
+            return game.ToString();
+        }
+
+        public async Task<GameModel?> GetGameAsync(string gameAlias)
+        {
             var game = await _gameRepository.SingleOrDefaultAsync(m => m.GameAlias.ToLower() == gameAlias.ToLower());
 
             if (game == null)
@@ -67,7 +79,7 @@ namespace OnlineGameStore.Core.Services
                 Description = game.Description,
             };
 
-            return result.ToString();
+            return result;
         }
 
         public async Task UpdateAsync(GameModel gameModel)
@@ -81,7 +93,7 @@ namespace OnlineGameStore.Core.Services
 
             var game = await _gameRepository.GetByIdAsync(gameModel.Id);
 
-            if (game == null) 
+            if (game == null)
             {
                 throw new ArgumentNullException("There is no game with such ID");
             }

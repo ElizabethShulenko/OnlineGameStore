@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineGameStore.API.Models.Request;
 using OnlineGameStore.Core.Models;
 using OnlineGameStore.Core.Services;
+using System.Text;
 
 namespace OnlineGameStore.Web.Controllers
 {
@@ -84,6 +85,32 @@ namespace OnlineGameStore.Web.Controllers
                 await _gameService.DeleteAsync(gameId);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{gameAlias}/download")]
+        public async Task<IActionResult> DownloadGame(string gameAlias)
+        {
+            try
+            {
+                var gameInfo = await _gameService.GetDescriptionAsync(gameAlias);
+
+                if (gameInfo == null)
+                {
+                    return NotFound();
+                }
+
+                var game = await _gameService.GetGameAsync(gameAlias);
+
+                string fileName = $"{game.Name}_{DateTime.UtcNow:yyyy/MM/dd/HH/mm/ss}.txt";
+
+                byte[] fileBytes = Encoding.UTF8.GetBytes(gameInfo);
+
+                return File(fileBytes, "text/plain", fileName);
             }
             catch (Exception ex)
             {

@@ -11,5 +11,7 @@ namespace OnlineGameStore.Core.Services
         Task UpdateAsync(GameModel gameModel);
 
         Task DeleteAsync(long gameId);
+
+        Task<GameModel?> GetGameAsync(string gameAlias);
     }
 }
