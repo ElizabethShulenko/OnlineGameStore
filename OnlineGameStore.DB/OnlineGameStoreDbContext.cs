@@ -9,6 +9,7 @@ namespace OnlineGameStore.DB
 
         #region DbSets
         public DbSet<Game> Games { get; set; }
+        public DbSet<Genre> Genres { get; set; }
         #endregion
 
         public OnlineGameStoreDbContext(string connectionString)

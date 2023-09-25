@@ -17,8 +17,10 @@ var configuration = new ConfigurationBuilder()
 builder.Services.AddScoped(provider => new OnlineGameStoreDbContext(configuration.GetConnectionString("OnlineGameStoreDb") ?? String.Empty));
 
 builder.Services.AddScoped<IRepository<Game>, Repository<Game>>();
-
 builder.Services.AddScoped<IGameService, GameService>();
+
+builder.Services.AddScoped<IRepository<Genre>, Repository<Genre>>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 
 var app = builder.Build();
 

@@ -9,6 +9,8 @@ namespace OnlineGameStore.API.AutoMapper
         public MappingProfile()
         {
             CreateMap<GameRequest, GameModel>();
+
+            CreateMap<GenreRequest, GenreModel>();
         }
     }
 }

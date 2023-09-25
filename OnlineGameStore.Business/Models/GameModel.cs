@@ -4,6 +4,8 @@
     {
         public long Id { get; set; }
 
+        public long? GenreId { get; set; }
+
         public string? GameAlias { get; set; }
 
         public string? Name { get; set; }
@@ -12,7 +14,7 @@
 
         public override string ToString()
         {
-            return $"Id: {Id}, GameAlias: {GameAlias}, Name: {Name}, Description: {Description}";
+            return $"Id: {Id}, GameAlias: {GameAlias}, Name: {Name}, Description: {Description}, GenreId: {GenreId}";
         }
     }    
 }

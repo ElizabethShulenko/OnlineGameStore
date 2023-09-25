@@ -9,12 +9,12 @@ namespace OnlineGameStore.Core.Services
     public class GameService : IGameService
     {
         private readonly IRepository<Game> _gameRepository;
-        private readonly IMapper _mapper;
+        private readonly IRepository<Genre> _genreRepository;
 
-        public GameService(IRepository<Game> gameRepository, IMapper mapper)
+        public GameService(IRepository<Game> gameRepository, IRepository<Genre> genreRepository)
         {
             _gameRepository = gameRepository;
-            _mapper = mapper;
+            _genreRepository = genreRepository;
         }
 
         public async Task CreateGameAsync(GameModel gameModel)
@@ -30,7 +30,14 @@ namespace OnlineGameStore.Core.Services
 
             if (isGameAliasExist)
             {
-                throw new Exception("Game with such alias is already exist");
+                throw new ArgumentException("Game with such alias is already exist");
+            }
+
+            var isGenreExist = await _genreRepository.IsExist(m => m.Id == gameModel.GenreId);
+
+            if (!isGenreExist) 
+            {
+                throw new ArgumentException("Genre with such id does not exist");
             }
 
             var game = new Game();
@@ -38,6 +45,7 @@ namespace OnlineGameStore.Core.Services
             game.Name = gameModel.Name;
             game.GameAlias = gameModel.GameAlias;
             game.Description = gameModel.Description;
+            game.GenreId = gameModel.GenreId;
 
             await _gameRepository.AddAsync(game);
         }
@@ -81,6 +89,7 @@ namespace OnlineGameStore.Core.Services
                 Name = game.Name,
                 GameAlias = game.GameAlias,
                 Description = game.Description,
+                GenreId = game.GenreId,
             };
 
             return result;
@@ -105,6 +114,7 @@ namespace OnlineGameStore.Core.Services
             game.Name = gameModel.Name;
             game.GameAlias = gameModel.GameAlias;
             game.Description = gameModel.Description;
+            game.GenreId = gameModel.GenreId;
 
             await _gameRepository.UpdateAsync(game);
         }
@@ -123,6 +133,7 @@ namespace OnlineGameStore.Core.Services
                     Name = game.Name,
                     GameAlias = game.GameAlias,
                     Description = game.Description,
+                    GenreId = game.GenreId
                 });
             }
 
