@@ -38,6 +38,18 @@ namespace OnlineGameStore.Core.Services
             await _gameRepository.AddAsync(game);
         }
 
+        public async Task DeleteAsync(long gameId)
+        {
+            var game = await _gameRepository.GetByIdAsync(gameId);
+
+            if (game == null)
+            {
+                throw new ArgumentNullException("gameId", "There is no game with such ID");
+            }
+
+            await _gameRepository.DeleteAsync(game);
+        }
+
         public async Task<string?> GetDescriptionAsync(string gameAlias)
         {
             var game = await _gameRepository.SingleOrDefaultAsync(m => m.GameAlias.ToLower() == gameAlias.ToLower());

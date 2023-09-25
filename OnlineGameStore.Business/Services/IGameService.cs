@@ -9,5 +9,7 @@ namespace OnlineGameStore.Core.Services
         Task<string?> GetDescriptionAsync(string gameAlias);
 
         Task UpdateAsync(GameModel gameModel);
+
+        Task DeleteAsync(long gameId);
     }
 }

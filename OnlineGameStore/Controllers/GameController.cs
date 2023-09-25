@@ -71,5 +71,25 @@ namespace OnlineGameStore.Web.Controllers
             }
         }
 
+        [HttpDelete("remove")]
+        public async Task<IActionResult> DeleteGame(long gameId)
+        {
+            try
+            {
+                if (gameId < 0)
+                {
+                    return BadRequest();
+                }
+
+                await _gameService.DeleteAsync(gameId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

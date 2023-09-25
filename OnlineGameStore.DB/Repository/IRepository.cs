@@ -9,6 +9,8 @@ namespace OnlineGameStore.DB.Repository
 
         Task UpdateAsync(TEntity entity);
 
+        Task DeleteAsync(TEntity entity);
+
         Task<bool> IsExist(Expression<Func<TEntity, bool>> predicate);
 
         Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);

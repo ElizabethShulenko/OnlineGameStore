@@ -41,5 +41,11 @@ namespace OnlineGameStore.DB.Repository
         {
             return await _dbSet.SingleOrDefaultAsync(m => m.Id == id);
         }
+
+        public async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
     }
 }
