@@ -1,16 +1,20 @@
-﻿using OnlineGameStore.Core.Models;
+﻿using AutoMapper;
+using OnlineGameStore.Core.Models;
 using OnlineGameStore.DB.Entities;
 using OnlineGameStore.DB.Repository;
+using System.Collections.Generic;
 
 namespace OnlineGameStore.Core.Services
 {
     public class GameService : IGameService
     {
         private readonly IRepository<Game> _gameRepository;
+        private readonly IMapper _mapper;
 
-        public GameService(IRepository<Game> gameRepository)
+        public GameService(IRepository<Game> gameRepository, IMapper mapper)
         {
             _gameRepository = gameRepository;
+            _mapper = mapper;
         }
 
         public async Task CreateGameAsync(GameModel gameModel)
@@ -95,7 +99,7 @@ namespace OnlineGameStore.Core.Services
 
             if (game == null)
             {
-                throw new ArgumentNullException("There is no game with such ID");
+                throw new ArgumentException("There is no game with such ID");
             }
 
             game.Name = gameModel.Name;
@@ -103,6 +107,26 @@ namespace OnlineGameStore.Core.Services
             game.Description = gameModel.Description;
 
             await _gameRepository.UpdateAsync(game);
+        }
+
+        public async Task<IEnumerable<GameModel>> GetAllGames()
+        {
+            var result = new List<GameModel>();
+            
+            var games = await _gameRepository.GetAllAsync();
+
+            foreach (var game in games) 
+            {
+                result.Add(new GameModel
+                {
+                    Id = game.Id,
+                    Name = game.Name,
+                    GameAlias = game.GameAlias,
+                    Description = game.Description,
+                });
+            }
+
+            return result;
         }
 
         private void ValidateGameAlias(GameModel gameModel)

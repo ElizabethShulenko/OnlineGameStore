@@ -47,5 +47,10 @@ namespace OnlineGameStore.DB.Repository
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
     }
 }

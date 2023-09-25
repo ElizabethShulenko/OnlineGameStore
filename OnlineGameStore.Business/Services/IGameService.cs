@@ -13,5 +13,7 @@ namespace OnlineGameStore.Core.Services
         Task DeleteAsync(long gameId);
 
         Task<GameModel?> GetGameAsync(string gameAlias);
+
+        Task<IEnumerable<GameModel>> GetAllGames();
     }
 }

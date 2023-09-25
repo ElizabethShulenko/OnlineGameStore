@@ -16,5 +16,7 @@ namespace OnlineGameStore.DB.Repository
         Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
         Task<TEntity?> GetByIdAsync(long id);
+
+        Task<IEnumerable<TEntity>> GetAllAsync();
     }
 }

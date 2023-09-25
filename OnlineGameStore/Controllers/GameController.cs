@@ -118,5 +118,20 @@ namespace OnlineGameStore.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllGamesAsync()
+        {
+            try
+            {                
+                var games = await _gameService.GetAllGames();
+                               
+                return Ok(games);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
