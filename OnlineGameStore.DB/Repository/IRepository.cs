@@ -6,7 +6,13 @@ namespace OnlineGameStore.DB.Repository
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
         Task AddAsync(TEntity entity);
+
+        Task UpdateAsync(TEntity entity);
+
         Task<bool> IsExist(Expression<Func<TEntity, bool>> predicate);
+
         Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        Task<TEntity?> GetByIdAsync(long id);
     }
 }

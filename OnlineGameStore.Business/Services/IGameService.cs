@@ -7,5 +7,7 @@ namespace OnlineGameStore.Core.Services
         Task CreateGameAsync(GameModel gameModel);
 
         Task<string?> GetDescriptionAsync(string gameAlias);
+
+        Task UpdateAsync(GameModel gameModel);
     }
 }

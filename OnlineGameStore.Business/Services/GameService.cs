@@ -20,10 +20,7 @@ namespace OnlineGameStore.Core.Services
                 throw new ArgumentNullException("gameModel.Name", "Parameter name is required");
             }
 
-            if (string.IsNullOrEmpty(gameModel.GameAlias))
-            {
-                gameModel.GameAlias = gameModel.Name.Trim().Replace(" ", "-").ToLower();
-            }
+            ValidateGameAlias(gameModel);
 
             var isGameAliasExist = await _gameRepository.IsExist(m => m.GameAlias.ToLower() == gameModel.GameAlias.ToLower());
 
@@ -59,6 +56,37 @@ namespace OnlineGameStore.Core.Services
             };
 
             return result.ToString();
+        }
+
+        public async Task UpdateAsync(GameModel gameModel)
+        {
+            if (string.IsNullOrEmpty(gameModel.Name))
+            {
+                throw new ArgumentNullException("gameModel.Name", "Parameter name is required");
+            }
+
+            ValidateGameAlias(gameModel);
+
+            var game = await _gameRepository.GetByIdAsync(gameModel.Id);
+
+            if (game == null) 
+            {
+                throw new ArgumentNullException("There is no game with such ID");
+            }
+
+            game.Name = gameModel.Name;
+            game.GameAlias = gameModel.GameAlias;
+            game.Description = gameModel.Description;
+
+            await _gameRepository.UpdateAsync(game);
+        }
+
+        private void ValidateGameAlias(GameModel gameModel)
+        {
+            if (string.IsNullOrEmpty(gameModel.GameAlias) && !string.IsNullOrEmpty(gameModel.Name))
+            {
+                gameModel.GameAlias = gameModel.Name.Trim().Replace(" ", "-").ToLower();
+            }
         }
     }
 }

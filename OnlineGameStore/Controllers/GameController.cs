@@ -48,5 +48,28 @@ namespace OnlineGameStore.Web.Controllers
 
             return Ok(gameDetails);
         }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateGame([FromBody] GameRequest gameRequest)
+        {
+            try
+            {
+                if (gameRequest.Id == null)
+                {
+                    return NotFound();
+                }
+
+                var gameModel = _mapper.Map<GameModel>(gameRequest);
+
+                await _gameService.UpdateAsync(gameModel);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

@@ -21,6 +21,12 @@ namespace OnlineGameStore.DB.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.SingleOrDefaultAsync(predicate);
@@ -29,6 +35,11 @@ namespace OnlineGameStore.DB.Repository
         public async Task<bool> IsExist(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.AnyAsync(predicate);
+        }
+
+        public async Task<T?> GetByIdAsync(long id)
+        {
+            return await _dbSet.SingleOrDefaultAsync(m => m.Id == id);
         }
     }
 }
