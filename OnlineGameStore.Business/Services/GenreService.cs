@@ -24,7 +24,7 @@ namespace OnlineGameStore.Core.Services
 
             if (isGenreExist)
             {
-                throw new Exception("Genre with such name is already exist");
+                throw new ArgumentException("Genre with such name is already exist");
             }
 
             var genre = new Genre();
@@ -32,6 +32,24 @@ namespace OnlineGameStore.Core.Services
             genre.Name = genreModel.Name;
 
             await _genreRepository.AddAsync(genre);
+        }
+
+        public async Task<string> GetGenreDetails(long genreId)
+        {
+            var genre = await _genreRepository.GetByIdAsync(genreId);
+
+            if (genre == null)
+            {
+                return null;
+            }
+
+            var genreModel = new GenreModel
+            { 
+                Id = genre.Id,
+                Name = genre.Name,
+            };
+
+            return genreModel.ToString();
         }
     }
 }

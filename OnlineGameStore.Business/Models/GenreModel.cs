@@ -1,7 +1,16 @@
-﻿namespace OnlineGameStore.Core.Models
+﻿using OnlineGameStore.DB.Entities;
+
+namespace OnlineGameStore.Core.Models
 {
     public class GenreModel
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}";
+        }
     }
 }

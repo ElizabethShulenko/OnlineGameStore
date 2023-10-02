@@ -35,5 +35,18 @@ namespace OnlineGameStore.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{ID}")]
+        public async Task<IActionResult> GetGenreDetails(long ID)
+        {
+            var genereDetails = await _genreService.GetGenreDetails(ID);
+
+            if (genereDetails == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(genereDetails);
+        }
     }
 }
