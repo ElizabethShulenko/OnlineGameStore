@@ -51,5 +51,24 @@ namespace OnlineGameStore.Core.Services
 
             return genreModel.ToString();
         }
+
+        public async Task UpdateAsync(GenreModel genreModel)
+        {
+            if (string.IsNullOrEmpty(genreModel.Name))
+            {
+                throw new ArgumentNullException("genreModel.Name", "Parameter name is required");
+            }
+
+            var genre = await _genreRepository.GetByIdAsync(genreModel.Id);
+
+            if (genre == null)
+            {
+                throw new ArgumentException("There is no genre with such ID");
+            }
+
+            genre.Name = genreModel.Name;
+
+            await _genreRepository.UpdateAsync(genre);
+        }
     }
 }

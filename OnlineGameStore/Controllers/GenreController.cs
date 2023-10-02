@@ -48,5 +48,27 @@ namespace OnlineGameStore.API.Controllers
 
             return Ok(genereDetails);
         }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateGenre([FromBody] GenreRequest genreRequest)
+        {
+            try
+            {
+                if (genreRequest.Id == null)
+                {
+                    return NotFound();
+                }
+
+                var genreModel = _mapper.Map<GenreModel>(genreRequest);
+
+                await _genreService.UpdateAsync(genreModel);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -7,5 +7,7 @@ namespace OnlineGameStore.Core.Services
         Task CreateGenreAsync(GenreModel genreModel);
 
         Task<string> GetGenreDetails(long genreId);
+
+        Task UpdateAsync(GenreModel genreModel);
     }
 }
